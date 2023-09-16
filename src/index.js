@@ -1,12 +1,12 @@
 import axios from "axios";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from "simplelightbox";
+
 import 'notiflix/dist/notiflix-3.2.6.min.css';
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 
 const BASE_URL = "https://pixabay.com/api/"
-//axios.defaults.headers.common["x-api-key"] = "39464156-6c3d114a5269f1cf634bfe107";
 const formSearch = document.querySelector('.search-form');
 const galleryContainer = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more');
@@ -14,12 +14,12 @@ let page = 1;
 let totalPages = 0;
 let lastQuery = null;
 
-const lightbox = new SimpleLightbox('.gallery .gallery__item',
-    {
-        captionsData: 'alt',
-        captionDelay: 250, 
-    }
-);
+// const lightbox = new SimpleLightbox('.gallery',
+//     {
+//         captionsData: 'alt',
+//         captionDelay: 250, 
+//     }
+// );
 
 
 async function fetchImage(textSearch, page) {
@@ -141,3 +141,10 @@ formSearch.addEventListener('submit', (e) => {
 });
 
 loadMoreButton.addEventListener('click', loadMoreHandler);
+
+const lightbox = new SimpleLightbox('.gallery',
+    {
+        captionsData: 'alt',
+        captionDelay: 250, 
+    }
+);

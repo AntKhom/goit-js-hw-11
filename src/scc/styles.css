@@ -56,20 +56,22 @@ header {
 }
 
 .search-form button {
-    width: 31px;
+    padding: 4px;
+    width: auto;
     height: 31px;
     min-width: 31px;
     cursor: pointer;
     background: none;
     border: none;
-    border-radius: 50%;
+    border-radius: 50px;
     justify-content: center;
     align-items: center;
     transition: 0.55s;
     display: flex;
     position: relative;
-    right: 36px;
+    right: 62px;
     outline: rgba(31, 158, 222, 0) solid 1px;
+    color: white;
 }
 
 .search-form button:not(:-moz-placeholder-shown) {
@@ -204,8 +206,8 @@ header {
 
 .load-more:hover {
     transition: outline 0.25s, color 0.15s, scale 0.55s;
-    outline: $accent-color solid 1px;
-    color: $accent-color;
+    outline: #1f9ede solid 1px;
+    color: #1f9ede;
     scale: 1.05;
 }
 
