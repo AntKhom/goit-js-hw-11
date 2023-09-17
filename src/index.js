@@ -6,7 +6,8 @@ import 'notiflix/dist/notiflix-3.2.6.min.css';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 
-const BASE_URL = "https://pixabay.com/api/"
+const BASE_URL = "https://pixabay.com/api/";
+const ITEM_PER_PAGE = 40;
 const formSearch = document.querySelector('.search-form');
 const galleryContainer = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more');
@@ -14,12 +15,7 @@ let page = 1;
 let totalPages = 0;
 let lastQuery = null;
 
-const lightbox = new SimpleLightbox('.gallery',
-    {
-        captionsData: 'alt',
-        captionDelay: 250, 
-    }
-);
+
 formSearch.firstElementChild.focus();
 
 async function fetchImage(textSearch, page) {
@@ -30,13 +26,13 @@ async function fetchImage(textSearch, page) {
                 q: textSearch,
                 safesearch: true,
                 page,
-                per_page: 40,
+                per_page: ITEM_PER_PAGE,
                 image_type: "photo",
                 orientation: "horizontal",
             },
         });
         
-        totalPages = Math.ceil(response.data.totalHits / 40);
+        totalPages = Math.ceil(response.data.totalHits / ITEM_PER_PAGE);
 
         if (response.data.totalHits === 0) {
             Notify.failure(`Sorry, there are no images matching your search query. Please try again.`, {
@@ -75,16 +71,16 @@ const renderGallery = (arr, container) => {
                 
                     <div class="info">
                         <p class="info-item">
-                            <b>Likes</b>
+                            <b>Likes</b></br>
                         ${item.likes}</p>
                         <p class="info-item">
-                            <b>Views</b>
+                            <b>Views</b></br>
                         ${item.views}</p>
                         <p class="info-item">
-                            <b>Comments</b>
+                            <b>Comments</b></br>
                         ${item.comments}</p>
                         <p class="info-item">
-                            <b>Downloads</b>
+                            <b>Downloads</b></br>
                         ${item.downloads}</p>
                     </div>
                     </a>
@@ -93,9 +89,17 @@ const renderGallery = (arr, container) => {
         .join('');
     
     container.insertAdjacentHTML('beforeend', markup);
+
+    const lightbox = new SimpleLightbox('.gallery a',
+        {
+            captionsData: 'alt',
+            captionDelay: 250, 
+        }
+    );
+
     lightbox.refresh();
 
-    if (page <= totalPages & totalPages != 1) {
+    if (page < totalPages & totalPages != 1) {
         loadMoreButton.style.display = 'block';
     } else {
         loadMoreButton.style.display = 'none';
@@ -104,19 +108,23 @@ const renderGallery = (arr, container) => {
 
 
 const searchImage = async function (searchQuery) {
-  const query = searchQuery;
+    if (searchQuery.trim() === '' || searchQuery === null) {
+        Notify.failure('Input cannot be empty');
+        return;
+    }
+    const query = searchQuery;
+    console.log(query);
+    if (query === lastQuery) {
+        return;
+    } else {
+        galleryContainer.innerHTML = '';
+    }
 
-  if (query === lastQuery) {
-    return;
-  } else {
-    galleryContainer.innerHTML = '';
-  }
+    lastQuery = query;
+    page = 1;
 
-  lastQuery = query;
-  page = 1;
-
-  const imageData = await fetchImage(query, page);
-  renderGallery(imageData,galleryContainer);
+    const imageData = await fetchImage(query, page);
+    renderGallery(imageData,galleryContainer);
 };
 
 const loadMoreHandler = async () => {

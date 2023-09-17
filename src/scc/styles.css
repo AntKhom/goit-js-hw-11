@@ -130,6 +130,7 @@ header {
     background-color: rgba(0, 0, 0, 0.5019607843);
     padding: 10px;
     display: flex;
+    justify-content: space-evenly;
     position: absolute;
     bottom: 0;
     left: 0;
