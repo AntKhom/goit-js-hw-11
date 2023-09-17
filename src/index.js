@@ -14,13 +14,13 @@ let page = 1;
 let totalPages = 0;
 let lastQuery = null;
 
-// const lightbox = new SimpleLightbox('.gallery',
-//     {
-//         captionsData: 'alt',
-//         captionDelay: 250, 
-//     }
-// );
-
+const lightbox = new SimpleLightbox('.gallery',
+    {
+        captionsData: 'alt',
+        captionDelay: 250, 
+    }
+);
+formSearch.firstElementChild.focus();
 
 async function fetchImage(textSearch, page) {
     try {
@@ -142,9 +142,3 @@ formSearch.addEventListener('submit', (e) => {
 
 loadMoreButton.addEventListener('click', loadMoreHandler);
 
-const lightbox = new SimpleLightbox('.gallery',
-    {
-        captionsData: 'alt',
-        captionDelay: 250, 
-    }
-);
