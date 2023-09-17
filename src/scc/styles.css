@@ -74,47 +74,10 @@ header {
     color: white;
 }
 
-.search-form button:not(:-moz-placeholder-shown) {
-    cursor: pointer;
-    background-color: #1f9ede;
-    -moz-transition: 0.55s;
-    transition: 0.55s;
-}
-
-.search-form button:not(:-ms-input-placeholder) {
-    cursor: pointer;
-    background-color: #1f9ede;
-    -ms-transition: 0.55s;
-    transition: 0.55s;
-}
-
-.search-form button:not(:placeholder-shown) {
-    cursor: pointer;
-    background-color: #1f9ede;
-    transition: 0.55s;
-}
-
 .search-form .icon {
     fill: #60676a;
     transition: 0.55s;
     stroke-width: 1px;
-}
-
-.search-form .icon:not(:-moz-placeholder-shown) {
-    fill: #fcfeff;
-    -moz-transition: 0.55s;
-    transition: 0.55s;
-}
-
-.search-form .icon:not(:-ms-input-placeholder) {
-    fill: #fcfeff;
-    -ms-transition: 0.55s;
-    transition: 0.55s;
-}
-
-.search-form .icon:not(:placeholder-shown) {
-    fill: #fcfeff;
-    transition: 0.55s;
 }
 
 .search-form button:hover {
@@ -125,18 +88,6 @@ header {
 .search-form button:focus {
     transition: 0.55s;
     outline: #1f9ede solid 1px;
-}
-
-.search-form button:-moz-placeholder-shown+.search-form__button__icon {
-    cursor: auto;
-}
-
-.search-form button:-ms-input-placeholder+.search-form__button__icon {
-    cursor: auto;
-}
-
-.search-form button:placeholder-shown+.search-form__button__icon {
-    cursor: auto;
 }
 
 .search-form .icon {
