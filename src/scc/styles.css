@@ -69,7 +69,7 @@ header {
     transition: 0.55s;
     display: flex;
     position: relative;
-    right: 62px;
+    right: 37px;
     outline: rgba(31, 158, 222, 0) solid 1px;
     color: white;
 }

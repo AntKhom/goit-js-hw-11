@@ -1,9 +1,9 @@
 import axios from "axios";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import SimpleLightbox from "simplelightbox";
+import SimpleLightbox from 'simplelightbox';
 
 import 'notiflix/dist/notiflix-3.2.6.min.css';
-import "simplelightbox/dist/simple-lightbox.min.css";
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 
 const BASE_URL = "https://pixabay.com/api/"
@@ -33,7 +33,6 @@ async function fetchImage(textSearch, page) {
                 per_page: 40,
                 image_type: "photo",
                 orientation: "horizontal",
-                safesearch: true,
             },
         });
         
