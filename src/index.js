@@ -11,6 +11,9 @@ const ITEM_PER_PAGE = 40;
 const formSearch = document.querySelector('.search-form');
 const galleryContainer = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more');
+const endOfSearch = document.querySelector('.end-search');
+
+endOfSearch.style.display = 'none';
 let page = 1;
 let totalPages = 0;
 let lastQuery = null;
@@ -101,8 +104,10 @@ const renderGallery = (arr, container) => {
 
     if (page < totalPages & totalPages != 1) {
         loadMoreButton.style.display = 'block';
+        endOfSearch.style.display = 'none';
     } else {
         loadMoreButton.style.display = 'none';
+        endOfSearch.style.display = 'block';
     }
 };
 
