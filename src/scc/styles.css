@@ -170,6 +170,7 @@ header {
 }
 
 .end-search {
+    display: none;
     margin: auto;
     padding-top: 8px;
     padding-bottom: 8px;
