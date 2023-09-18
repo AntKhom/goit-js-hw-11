@@ -21,7 +21,7 @@ async function fetchImage(textSearch, page) {
             },
         });
         
-        totalPages = Math.ceil(response.data.totalHits / ITEM_PER_PAGE);
+        const totalPages = Math.ceil(response.data.totalHits / ITEM_PER_PAGE);
 
         if (response.data.totalHits === 0) {
             Notify.failure(`Sorry, there are no images matching your search query. Please try again.`, {
@@ -31,9 +31,10 @@ async function fetchImage(textSearch, page) {
             Notify.success(`Hooray! We found ${response.data.totalHits} images.`, {
             position: 'right-top',
             });
-        }
+        };
+        
         console.log(response.data.hits);
-        return response.data.hits;
+        return [response.data.hits,totalPages];
    
     } catch (error) {
         console.log(error);

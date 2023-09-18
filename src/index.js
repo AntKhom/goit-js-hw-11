@@ -13,12 +13,12 @@ const endOfSearch = document.querySelector('.end-search');
 
 // endOfSearch.style.display = 'none';
 let page = 1;
-// let totalPages = 0;
+let totalPages = 0;
 let lastQuery = null;
 
 formSearch.firstElementChild.focus();
 
-const renderGallery = (arr, container) => {
+const renderGallery = (arr, container, totalPages) => {
     console.log(arr);
     const markup = arr
         .map(
@@ -62,6 +62,7 @@ const renderGallery = (arr, container) => {
     lightbox.refresh();
 
     console.log(page, '===', totalPages);
+
     if (page < totalPages & totalPages != 1) {
         loadMoreButton.style.display = 'block';
         endOfSearch.style.display = 'none';
@@ -94,13 +95,13 @@ const searchImage = async function (searchQuery) {
     page = 1;
 
     const imageData = await fetchImage(query, page);
-    renderGallery(imageData,galleryContainer);
+    renderGallery(imageData[0],galleryContainer,imageData[1]);
 };
 
 const loadMoreHandler = async () => {
     page += 1;
     const imageData = await fetchImage(lastQuery, page);
-    renderGallery(imageData, galleryContainer);
+    renderGallery(imageData[0], galleryContainer,imageData[1]);
 
     const { height: cardHeight } = document
         .querySelector(".gallery")
