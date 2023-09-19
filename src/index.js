@@ -115,6 +115,7 @@ const loadMoreHandler = async () => {
 
 formSearch.addEventListener('submit', (e) => {
     e.preventDefault();
+    loadMoreButton.style.display = 'none';
     searchImage(e.target.searchQuery.value);
 });
 
