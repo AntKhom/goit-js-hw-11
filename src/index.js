@@ -8,12 +8,13 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const formSearch = document.querySelector('.search-form');
 const galleryContainer = document.querySelector('.gallery');
-const loadMoreButton = document.querySelector('.load-more');
+
 const endOfSearch = document.querySelector('.end-search');
 
-// endOfSearch.style.display = 'none';
+
+
 let page = 1;
-let totalPages = 0;
+// let totalPages = 0;
 let lastQuery = null;
 
 formSearch.firstElementChild.focus();
@@ -63,17 +64,19 @@ const renderGallery = (arr, container, totalPages) => {
 
     console.log(page, '===', totalPages);
 
-    if (page < totalPages & totalPages != 1) {
-        loadMoreButton.style.display = 'block';
-        endOfSearch.style.display = 'none';
-    } else {
-        if (totalPages === 0) {
-            endOfSearch.style.display = 'none';   
-        } else {
-            loadMoreButton.style.display = 'none';
-            endOfSearch.style.display = 'block';
-        };
-    };
+//For scroll button
+
+//     if (page < totalPages & totalPages != 1) {
+//         loadMoreButton.style.display = 'block';
+//         endOfSearch.style.display = 'none';
+//     } else {
+//         if (totalPages === 0) {
+//             endOfSearch.style.display = 'none';   
+//         } else {
+//             loadMoreButton.style.display = 'none';
+//             endOfSearch.style.display = 'block';
+//         };
+//     };
     
 };
 
@@ -95,29 +98,64 @@ const searchImage = async function (searchQuery) {
     page = 1;
 
     const imageData = await fetchImage(query, page);
+    observer.observe(guardEl);
     renderGallery(imageData[0],galleryContainer,imageData[1]);
 };
 
-const loadMoreHandler = async () => {
-    page += 1;
-    const imageData = await fetchImage(lastQuery, page);
-    renderGallery(imageData[0], galleryContainer,imageData[1]);
 
-    const { height: cardHeight } = document
-        .querySelector(".gallery")
-        .firstElementChild.getBoundingClientRect();
-
-    window.scrollBy({
-        top: cardHeight * 2,
-        behavior: "smooth",
-    });
-};
 
 formSearch.addEventListener('submit', (e) => {
     e.preventDefault();
-    loadMoreButton.style.display = 'none';
+//    loadMoreButton.style.display = 'none';
     searchImage(e.target.searchQuery.value);
 });
 
-loadMoreButton.addEventListener('click', loadMoreHandler);
+// Scroll button
 
+// const loadMoreButton = document.querySelector('.load-more');
+
+// const loadMoreHandler = async () => {
+//     page += 1;
+//     const imageData = await fetchImage(lastQuery, page);
+//     renderGallery(imageData[0], galleryContainer,imageData[1]);
+
+//     const { height: cardHeight } = document
+//         .querySelector(".gallery")
+//         .firstElementChild.getBoundingClientRect();
+
+//     window.scrollBy({
+//         top: cardHeight * 2,
+//         behavior: "smooth",
+//     });
+// };
+
+// loadMoreButton.addEventListener('click', loadMoreHandler);
+
+//Infinyty scroll
+
+const guardEl = document.querySelector('.js-guard');
+
+const options = {
+    root: null,
+    rootMargin: "300px",
+    treshold: 0,
+};
+
+const handleIntersection = (entries, observer) => {
+    console.log(entries);
+    console.log(observer);
+    entries.forEach( async (intersection) => {
+        if (intersection.isIntersecting) {
+            page += 1;
+            console.log (lastQuery, page)
+            const imageData = await fetchImage(lastQuery, page);
+            totalPages = imageData[1];
+            renderGallery(imageData[0], galleryContainer, totalPages);
+               if (page === totalPages) {
+                observer.unobserve(intersection.target);
+            };
+        };
+    });
+};
+
+const observer = new IntersectionObserver(handleIntersection, options);
