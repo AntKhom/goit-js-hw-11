@@ -149,7 +149,7 @@ const handleIntersection = (entries, observer) => {
             page += 1;
             console.log (lastQuery, page)
             const imageData = await fetchImage(lastQuery, page);
-            totalPages = imageData[1];
+            const totalPages = imageData[1];
             renderGallery(imageData[0], galleryContainer, totalPages);
                if (page === totalPages) {
                 observer.unobserve(intersection.target);
