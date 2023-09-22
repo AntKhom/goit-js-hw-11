@@ -111,18 +111,21 @@ header {
 .gallery { 
     display: flex;
     flex-wrap: wrap;
-    margin-top: 40px;
+    gap:10px;
+    /* margin-top: 10px; */
+    padding: 10px;
     justify-content: center;
 }
 
 .gallery__item {
     display: block;
     position: relative;
-    width: 400px;
+    /* width: 400px; */
     height: 300px;
-    margin: 10px;
+    /* margin: 10px; */
     overflow: hidden;
     transition: transform 0.2s ease-in-out;
+    flex: 1 1 auto;
 }
 
 .gallery__item:hover {
