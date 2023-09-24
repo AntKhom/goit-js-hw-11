@@ -121,6 +121,7 @@ header {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: calc((100% - 30px) / 4);
 }
 
 .gallery__item {
