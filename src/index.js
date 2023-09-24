@@ -8,6 +8,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const formSearch = document.querySelector('.search-form');
 const galleryContainer = document.querySelector('.gallery');
+const columnEls = document.querySelectorAll('.column'); 
 
 const endOfSearch = document.querySelector('.end-search');
 
@@ -21,37 +22,84 @@ formSearch.firstElementChild.focus();
 
 const renderGallery = (arr, container, totalPages) => {
     console.log(arr);
-    const markup = arr
-        .map(
-            (item) =>
-                `
-                <div class="photo-card gallery__item">
-                <a class="gallery__link" href="${item.largeImageURL}">
-                    <img class="gallery__image"
-                        src="${item.webformatURL}" 
-                        alt="${item.tags}" 
-                        loading="lazy" />
-                
-                    <div class="info">
-                        <p class="info-item">
-                            <b>Likes</b></br>
-                        ${item.likes}</p>
-                        <p class="info-item">
-                            <b>Views</b></br>
-                        ${item.views}</p>
-                        <p class="info-item">
-                            <b>Comments</b></br>
-                        ${item.comments}</p>
-                        <p class="info-item">
-                            <b>Downloads</b></br>
-                        ${item.downloads}</p>
+    const chunkSize = 10;
+    let numberColumn = 0;
+    // const markup = [];
+    for (let i = 0; i < arr.length; i += chunkSize){
+        
+        
+        const chunk = arr.slice(i, i + chunkSize);
+        console.log(chunk);
+        const markup =
+            chunk
+                .map(
+                    (item) =>
+                    `
+                    <div class="photo-card gallery__item">
+                        <a class="gallery__link" href="${item.largeImageURL}">
+                            <img class="gallery__image"
+                                src="${item.webformatURL}" 
+                                alt="${item.tags}" 
+                                loading="lazy" />
+                        
+                            <div class="info">
+                                <p class="info-item">
+                                    <b>Likes</b></br>
+                                ${item.likes}</p>
+                                <p class="info-item">
+                                    <b>Views</b></br>
+                                ${item.views}</p>
+                                <p class="info-item">
+                                    <b>Comments</b></br>
+                                ${item.comments}</p>
+                                <p class="info-item">
+                                    <b>Downloads</b></br>
+                                ${item.downloads}</p>
+                            </div>
+                        </a>
                     </div>
-                    </a>
-                </div>
-            `)
-        .join('');
+                        `)
+                .join('')
+        container[numberColumn].insertAdjacentHTML('beforeend', markup);
+        numberColumn += 1;   
+        
+    };
+
+    //for other gallery
+
+    // markup.join('')
+    // console.log(markup);
+    // const markup = arr
+    //     .map(
+    //         (item) =>
+    //             `
+    //             <div class="photo-card gallery__item">
+    //             <a class="gallery__link" href="${item.largeImageURL}">
+    //                 <img class="gallery__image"
+    //                     src="${item.webformatURL}" 
+    //                     alt="${item.tags}" 
+    //                     loading="lazy" />
+                
+    //                 <div class="info">
+    //                     <p class="info-item">
+    //                         <b>Likes</b></br>
+    //                     ${item.likes}</p>
+    //                     <p class="info-item">
+    //                         <b>Views</b></br>
+    //                     ${item.views}</p>
+    //                     <p class="info-item">
+    //                         <b>Comments</b></br>
+    //                     ${item.comments}</p>
+    //                     <p class="info-item">
+    //                         <b>Downloads</b></br>
+    //                     ${item.downloads}</p>
+    //                 </div>
+    //                 </a>
+    //             </div>
+    //         `)
+    //     .join('');
     
-    container.insertAdjacentHTML('beforeend', markup);
+    //  container.insertAdjacentHTML('beforeend', markup);
 
     const lightbox = new SimpleLightbox('.gallery a',
         {
@@ -87,11 +135,15 @@ const searchImage = async function (searchQuery) {
         return;
     }
     const query = searchQuery;
+    console.log(lastQuery);
     console.log(query);
     if (query === lastQuery) {
         return;
     } else {
-        galleryContainer.innerHTML = '';
+        // galleryContainer.innerHTML = '';
+        columnEls.forEach((item) => {
+            item.innerHTML = '';        
+        });
     }
 
     lastQuery = query;
@@ -99,7 +151,7 @@ const searchImage = async function (searchQuery) {
 
     const imageData = await fetchImage(query, page);
     observer.observe(guardEl);
-    renderGallery(imageData[0],galleryContainer,imageData[1]);
+    renderGallery(imageData[0],columnEls,imageData[1]);
 };
 
 
@@ -150,9 +202,10 @@ const handleIntersection = (entries, observer) => {
             console.log (lastQuery, page)
             const imageData = await fetchImage(lastQuery, page);
             const totalPages = imageData[1];
-            renderGallery(imageData[0], galleryContainer, totalPages);
+            renderGallery(imageData[0], columnEls, totalPages);
                if (page === totalPages) {
-                observer.unobserve(intersection.target);
+                   observer.unobserve(intersection.target);
+                   endOfSearch.style.display = 'block'; 
             };
         };
     });
