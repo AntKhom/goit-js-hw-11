@@ -60,13 +60,13 @@ const renderGallery = (arr, container, totalPages) => {
                     </div>
                         `)
                 .join('')
-        console.log(markup);
         container[numberColumn].insertAdjacentHTML('beforeend', markup);
-        console.log(container[numberColumn]);
-        console.log(numberColumn);
         numberColumn += 1;   
         
     };
+
+    //for other gallery
+
     // markup.join('')
     // console.log(markup);
     // const markup = arr
@@ -135,11 +135,15 @@ const searchImage = async function (searchQuery) {
         return;
     }
     const query = searchQuery;
+    console.log(lastQuery);
     console.log(query);
     if (query === lastQuery) {
         return;
     } else {
-        galleryContainer.innerHTML = '';
+        // galleryContainer.innerHTML = '';
+        columnEls.forEach((item) => {
+            item.innerHTML = '';        
+        });
     }
 
     lastQuery = query;
@@ -200,7 +204,8 @@ const handleIntersection = (entries, observer) => {
             const totalPages = imageData[1];
             renderGallery(imageData[0], columnEls, totalPages);
                if (page === totalPages) {
-                observer.unobserve(intersection.target);
+                   observer.unobserve(intersection.target);
+                   endOfSearch.style.display = 'block'; 
             };
         };
     });
